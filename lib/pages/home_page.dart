@@ -14,6 +14,7 @@ class HomePage extends StatelessWidget {
           children: [
             kToolbarHeight.pv,
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
