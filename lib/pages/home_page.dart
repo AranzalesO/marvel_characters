@@ -8,8 +8,29 @@ import 'package:marvel_characters/widgets/list_tile_character.dart';
 import 'package:http/http.dart' as http;
 import '../widgets/custom_padding.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  Map data = {};
+  final url =
+      "https://gateway.marvel.com/v1/public/characters?apikey=57efd54181cb80028b78e6ca9c3587ef&hash=e50d3d3cb8be50d230afecacddefdbde&ts=100";
+
+  void fetchCharacters() async {
+    final response = await http.get(Uri.parse(url));
+    data = jsonDecode(response.body);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    fetchCharacters();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,39 +120,26 @@ class HomePage extends StatelessWidget {
             ),
             15.pv,
             Expanded(
-              child: ListView(padding: EdgeInsets.zero, children: [
-                const ListTileRowCharacters(
-                  title: 'Iron Man',
-                  image: 'assets/IronMan.jpg',
-                  events: 4,
-                  comics: 30,
-                  series: 12,
-                ),
-                15.pv,
-                const ListTileRowCharacters(
-                  title: 'Spiderman',
-                  image: 'assets/spiderman.jpg',
-                  events: 3,
-                  comics: 40,
-                  series: 32,
-                ),
-                15.pv,
-                const ListTileRowCharacters(
-                  title: 'Thor',
-                  image: 'assets/thor.jpg',
-                  events: 1,
-                  comics: 10,
-                  series: 2,
-                ),
-                15.pv,
-                const ListTileRowCharacters(
-                  title: 'Captain America',
-                  image: 'assets/captain-america.png',
-                  events: 0,
-                  comics: 7,
-                  series: 1,
-                ),
-              ]),
+              child: data['data']['results'] != null
+                  ? ListView.builder(
+                      itemCount: data['data']['results'].length,
+                      padding: EdgeInsets.zero,
+                      itemBuilder: (context, index) {
+                        return ListTileRowCharacters(
+                          title: data['data']['results'][index]['name'],
+                          image:
+                              '${data['data']['results'][index]['thumbnail']['path']}.${data['data']['results'][index]['thumbnail']['extension']}',
+                          events: data['data']['results'][index]['events']
+                              ['available'],
+                          comics: data['data']['results'][index]['comics']
+                              ['available'],
+                          series: data['data']['results'][index]['series']
+                              ['available'],
+                        );
+                      })
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    ),
             ),
           ],
         ),

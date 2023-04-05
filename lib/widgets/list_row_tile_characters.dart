@@ -26,7 +26,8 @@ class ListTileRowCharacters extends StatelessWidget {
           MaterialPageRoute(builder: (context) => const CharacterDetail())),
       child: Row(
         children: [
-          SizedBox(height: 150, child: CustomImage(child: Image.asset(image))),
+          SizedBox(
+              height: 150, child: CustomImage(child: Image.network(image))),
           15.ph,
           Expanded(
             child: Column(
