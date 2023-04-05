@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:marvel_characters/utils/extensions.dart';
 import 'package:marvel_characters/widgets/list_row_tile_characters.dart';
 import 'package:marvel_characters/widgets/list_tile_character.dart';
 
+import 'package:http/http.dart' as http;
 import '../widgets/custom_padding.dart';
 
 class HomePage extends StatelessWidget {
