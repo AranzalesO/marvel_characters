@@ -27,7 +27,13 @@ class ListTileRowCharacters extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-              height: 150, child: CustomImage(child: Image.network(image))),
+              height: 150,
+              width: 170,
+              child: CustomImage(
+                  child: Image.network(
+                image,
+                fit: BoxFit.cover,
+              ))),
           15.ph,
           Expanded(
             child: Column(

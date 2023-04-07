@@ -125,16 +125,21 @@ class _HomePageState extends State<HomePage> {
                       itemCount: data['data']['results'].length,
                       padding: EdgeInsets.zero,
                       itemBuilder: (context, index) {
-                        return ListTileRowCharacters(
-                          title: data['data']['results'][index]['name'],
-                          image:
-                              '${data['data']['results'][index]['thumbnail']['path']}.${data['data']['results'][index]['thumbnail']['extension']}',
-                          events: data['data']['results'][index]['events']
-                              ['available'],
-                          comics: data['data']['results'][index]['comics']
-                              ['available'],
-                          series: data['data']['results'][index]['series']
-                              ['available'],
+                        return Column(
+                          children: [
+                            ListTileRowCharacters(
+                              title: data['data']['results'][index]['name'],
+                              image:
+                                  '${data['data']['results'][index]['thumbnail']['path']}.${data['data']['results'][index]['thumbnail']['extension']}',
+                              events: data['data']['results'][index]['events']
+                                  ['available'],
+                              comics: data['data']['results'][index]['comics']
+                                  ['available'],
+                              series: data['data']['results'][index]['series']
+                                  ['available'],
+                            ),
+                            15.pv,
+                          ],
                         );
                       })
                   : const Center(
