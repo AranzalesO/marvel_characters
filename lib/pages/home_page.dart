@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+// import 'package:marvel_characters/models/CharactersModel.dart';
+import 'package:marvel_characters/models/character.dart';
 import 'package:marvel_characters/utils/extensions.dart';
 import 'package:marvel_characters/widgets/list_row_tile_characters.dart';
 import 'package:marvel_characters/widgets/list_tile_character.dart';
@@ -16,14 +18,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Map data = {};
+  // CharactersModel charactersModel = CharactersModel();
   final url =
       "https://gateway.marvel.com/v1/public/characters?apikey=57efd54181cb80028b78e6ca9c3587ef&hash=e50d3d3cb8be50d230afecacddefdbde&ts=100";
 
+  List<Character> _characters = [];
+
   void fetchCharacters() async {
     final response = await http.get(Uri.parse(url));
-    data = jsonDecode(response.body);
-    setState(() {});
+    if (response.statusCode != 200) {
+      throw Exception('Failed loading characters');
+    }
+    final List<dynamic> data = jsonDecode(response.body)['data']['results'];
+    final List<Character> characters =
+        data.map((json) => Character.fromJson(json)).toList();
+    // charactersModel = CharactersModel.fromJson(data);
+    setState(() {
+      _characters = characters;
+    });
   }
 
   @override
@@ -120,23 +132,22 @@ class _HomePageState extends State<HomePage> {
             ),
             15.pv,
             Expanded(
-              child: data['data']['results'] != null
+              child: _characters != false
                   ? ListView.builder(
-                      itemCount: data['data']['results'].length,
+                      itemCount: _characters.length,
                       padding: EdgeInsets.zero,
                       itemBuilder: (context, index) {
+                        final individual = _characters[index];
                         return Column(
                           children: [
                             ListTileRowCharacters(
-                              title: data['data']['results'][index]['name'],
-                              image:
-                                  '${data['data']['results'][index]['thumbnail']['path']}.${data['data']['results'][index]['thumbnail']['extension']}',
-                              events: data['data']['results'][index]['events']
-                                  ['available'],
-                              comics: data['data']['results'][index]['comics']
-                                  ['available'],
-                              series: data['data']['results'][index]['series']
-                                  ['available'],
+                              title: individual.title,
+                              image: individual.image,
+                              events: individual.events,
+                              comics: individual.comics,
+                              series: individual.series,
+                              stories: individual.stories,
+                              character: individual,
                             ),
                             15.pv,
                           ],
