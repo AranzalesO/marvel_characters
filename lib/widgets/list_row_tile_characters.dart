@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:marvel_characters/utils/extensions.dart';
 import 'package:marvel_characters/widgets/custom_image.dart';
 
+import '../models/character.dart';
 import '../pages/character_detail.dart';
 
 class ListTileRowCharacters extends StatelessWidget {
@@ -11,22 +14,38 @@ class ListTileRowCharacters extends StatelessWidget {
       required this.image,
       required this.events,
       required this.comics,
-      required this.series});
+      required this.series,
+      required this.stories,
+      required this.character});
 
   final String title;
   final String image;
   final int events;
   final int comics;
   final int series;
+  final int stories;
+  final Character character;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const CharacterDetail())),
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CharacterDetail(
+              character: character,
+            ),
+          )),
       child: Row(
         children: [
-          SizedBox(height: 150, child: CustomImage(child: Image.asset(image))),
+          SizedBox(
+              height: 150,
+              width: 170,
+              child: CustomImage(
+                  child: Image.network(
+                image,
+                fit: BoxFit.cover,
+              ))),
           15.ph,
           Expanded(
             child: Column(

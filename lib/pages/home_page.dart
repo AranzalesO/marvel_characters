@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+// import 'package:marvel_characters/models/CharactersModel.dart';
+import 'package:marvel_characters/models/character.dart';
 import 'package:marvel_characters/utils/extensions.dart';
 import 'package:marvel_characters/widgets/list_row_tile_characters.dart';
 import 'package:marvel_characters/widgets/list_tile_character.dart';
@@ -8,8 +10,39 @@ import 'package:marvel_characters/widgets/list_tile_character.dart';
 import 'package:http/http.dart' as http;
 import '../widgets/custom_padding.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  // CharactersModel charactersModel = CharactersModel();
+  final url =
+      "https://gateway.marvel.com/v1/public/characters?apikey=57efd54181cb80028b78e6ca9c3587ef&hash=e50d3d3cb8be50d230afecacddefdbde&ts=100";
+
+  List<Character> _characters = [];
+
+  void fetchCharacters() async {
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode != 200) {
+      throw Exception('Failed loading characters');
+    }
+    final List<dynamic> data = jsonDecode(response.body)['data']['results'];
+    final List<Character> characters =
+        data.map((json) => Character.fromJson(json)).toList();
+    // charactersModel = CharactersModel.fromJson(data);
+    setState(() {
+      _characters = characters;
+    });
+  }
+
+  @override
+  void initState() {
+    fetchCharacters();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,39 +132,30 @@ class HomePage extends StatelessWidget {
             ),
             15.pv,
             Expanded(
-              child: ListView(padding: EdgeInsets.zero, children: [
-                const ListTileRowCharacters(
-                  title: 'Iron Man',
-                  image: 'assets/IronMan.jpg',
-                  events: 4,
-                  comics: 30,
-                  series: 12,
-                ),
-                15.pv,
-                const ListTileRowCharacters(
-                  title: 'Spiderman',
-                  image: 'assets/spiderman.jpg',
-                  events: 3,
-                  comics: 40,
-                  series: 32,
-                ),
-                15.pv,
-                const ListTileRowCharacters(
-                  title: 'Thor',
-                  image: 'assets/thor.jpg',
-                  events: 1,
-                  comics: 10,
-                  series: 2,
-                ),
-                15.pv,
-                const ListTileRowCharacters(
-                  title: 'Captain America',
-                  image: 'assets/captain-america.png',
-                  events: 0,
-                  comics: 7,
-                  series: 1,
-                ),
-              ]),
+              child: _characters != false
+                  ? ListView.builder(
+                      itemCount: _characters.length,
+                      padding: EdgeInsets.zero,
+                      itemBuilder: (context, index) {
+                        final individual = _characters[index];
+                        return Column(
+                          children: [
+                            ListTileRowCharacters(
+                              title: individual.title,
+                              image: individual.image,
+                              events: individual.events,
+                              comics: individual.comics,
+                              series: individual.series,
+                              stories: individual.stories,
+                              character: individual,
+                            ),
+                            15.pv,
+                          ],
+                        );
+                      })
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    ),
             ),
           ],
         ),

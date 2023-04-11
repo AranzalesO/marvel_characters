@@ -3,8 +3,14 @@ import 'package:marvel_characters/utils/extensions.dart';
 import 'package:marvel_characters/widgets/custom_image.dart';
 import 'package:marvel_characters/widgets/custom_padding.dart';
 
+import '../models/character.dart';
+import '../widgets/list_row_tile_characters.dart';
+import '../widgets/list_tile_character.dart';
+
+// ignore: must_be_immutable
 class CharacterDetail extends StatelessWidget {
-  const CharacterDetail({super.key});
+  final Character character;
+  const CharacterDetail({Key? key, required this.character}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +27,16 @@ class CharacterDetail extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                width: 200,
-                child: CustomImage(child: Image.asset('assets/spiderman.jpg')),
+                width: 250,
+                child: CustomImage(child: Image.network(character.image)),
               ),
               15.pv,
-              const Text(
-                'Spiderman',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              Text(
+                character.title,
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
+              10.pv,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -37,17 +45,71 @@ class CharacterDetail extends StatelessWidget {
                     color: Colors.yellow,
                   ),
                   10.ph,
-                  const Text(
-                    '5 Events',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Text(
+                    '${character.events} Events',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  20.ph,
+                  Text(
+                    'Comics: ${character.comics}',
+                    style: const TextStyle(color: Colors.grey, fontSize: 14),
+                  ),
+                  20.ph,
+                  const Icon(
+                    Icons.book,
+                    color: Colors.yellow,
+                  ),
+                  7.ph,
+                  Text(
+                    'Stories: ${character.stories}',
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-              30.pv,
-              const Text(
-                'Rick Jones has been Hulk\'s best bud since day one, but now he\'s more than a friend...he\'s a teammate! Transformed by a Gamma energy explosion, A-Bomb\'s thick, armored skin is just as strong and powerful as it is blue. And when he curls into action, he uses it like a giant bowling ball of destruction! ',
-                style: TextStyle(color: Colors.grey, fontSize: 16),
-              )
+              10.pv,
+              Text(
+                character.description,
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 16,
+                ),
+              ),
+              15.pv,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.movie,
+                    color: Colors.yellow,
+                  ),
+                  10.ph,
+                  Text(
+                    '${character.series} Series',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              10.pv,
+              Expanded(
+                child: character.seriesNames != null
+                    ? ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: character.seriesNames.length,
+                        itemBuilder: (context, index) {
+                          return Row(children: [
+                            ListTileCharacter(
+                              image: 'assets/serie-image.jpg',
+                              title: character.seriesNames[index],
+                            ),
+                            20.ph
+                          ]);
+                        },
+                      )
+                    : const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+              ),
             ],
           ),
         ));
