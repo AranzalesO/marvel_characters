@@ -1,16 +1,9 @@
 # marvel_characters
 
-A new Flutter project.
+A new Flutter app where you'll find details about Marvel Characters.
 
-## Getting Started
+## Preview
 
-This project is a starting point for a Flutter application.
+![image](https://user-images.githubusercontent.com/71298422/231261644-cd89c7b9-87f1-47aa-a324-1ecd4cded6b9.png)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![image](https://user-images.githubusercontent.com/71298422/231261864-22f6b934-84a7-41c7-add1-98ad0e0e3a98.png)
