@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.marvel_characters">
+    package="com.example.auth_flutter">
    <application
-        android:label="marvel_characters"
+        android:label="auth_flutter"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

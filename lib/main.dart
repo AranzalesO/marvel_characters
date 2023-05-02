@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marvel_characters/pages/home_page.dart';
+import 'package:auth_flutter/pages/home_page.dart';
 
 void main() {
   runApp(const SuperHeroes());
@@ -11,9 +11,9 @@ class SuperHeroes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'Marvel Characters App',
+      title: 'Auth app firebase',
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: FirstRoute(),
     );
   }
 }

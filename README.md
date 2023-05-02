@@ -1,4 +1,4 @@
-# marvel_characters
+# auth_flutter
 
 A new Flutter app where you'll find details about Marvel Characters.
 

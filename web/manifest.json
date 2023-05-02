@@ -1,6 +1,6 @@
 {
-    "name": "marvel_characters",
-    "short_name": "marvel_characters",
+    "name": "auth_flutter",
+    "short_name": "auth_flutter",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

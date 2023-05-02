@@ -1,4 +1,4 @@
-package com.example.marvel_characters
+package com.example.auth_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 
